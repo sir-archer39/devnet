@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  cl-lighthouse:
+    image: ethpandaops/lighthouse:stable
+    command: 
+      - lighthouse
+      - beacon_node
+      - --debug-level=info
+      - --datadir=/data/lighthouse/beacon-data
+      - --disable-enr-auto-update
+      - --enr-address=172.16.0.15
+      - --enr-udp-port=9000
+      - --enr-tcp-port=9000
+      - --listen-address=0.0.0.0
+      - --port=9000
+      - --http
+      - --http-address=0.0.0.0
+      - --http-port=4000
+      - --http-allow-sync-stalled
+      - --slots-per-restore-point=32
+      - --disable-packet-filter
+      - --execution-endpoints=http://el-geth:8551
+      - --jwt-secrets=/jwt/jwtsecret
+      - --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776
+      - --metrics
+      - --metrics-address=0.0.0.0
+      - --metrics-allow-origin=*
+      - --metrics-port=5054
+      - --enable-private-discovery
+      - --testnet-dir=/network-configs
+      - --checkpoint-sync-url=http://172.16.0.12:9000
+    networks:
+      - network1
+    volumes:
+      - ./data/lighthouse-beacon:/data/lighthouse/beacon-data
+      - ./jwt:/jwt
+      - ./network-configs:/network-configs
+    ports:
+      - "4000:4000"
+      - "9000:9000"
+    environment:
+      - RUST_BACKTRACE=full
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - GOPROXY=https://goproxy.primary.production.platform.ethpandaops.io
+    restart: always
+  
+  el-geth:
+    build:
+      context: .
+      dockerfile: Dockerfile.geth
+    command: 
+      - --networkid=12020498 
+      - --verbosity=3 
+      - --http 
+      - --http.addr=0.0.0.0 
+      - --http.vhosts=* 
+      - --http.corsdomain=* 
+      - --http.api=admin,engine,net,eth,web3,debug 
+      - --ws 
+      - --ws.addr=0.0.0.0 
+      - --ws.port=8546 
+      - --ws.api=admin,engine,net,eth,web3,debug 
+      - --ws.origins=* 
+      - --allow-insecure-unlock 
+      - --nat=extip:172.16.0.11 
+      - --authrpc.port=8551 
+      - --authrpc.addr=0.0.0.0 
+      - --authrpc.vhosts=* 
+      - --authrpc.jwtsecret=/jwt/jwtsecret 
+      - --syncmode=full 
+      - --rpc.allow-unprotected-txs 
+      - --metrics 
+      - --metrics.addr=0.0.0.0 
+      - --metrics.port=9001 
+      - --discovery.port=30303 
+      - --port=30303 
+      - --bootnodes=enode://0b4e6d5ac3e300188bd8fc69efc2dcbaf8695f94eb78bac0b6ac86efad997c085d45c2704aacf398c00ba83b4f44ffefa5561e352cdb148a97fbc4ca1a0541a4@172.16.0.10:30303
+    ports:
+      - "30303:30303"
+      - "8545:8545"
+      - "8546:8546"
+      - "8551:8551"
+      - "9001:9001"
+    volumes:
+      - ./jwt:/jwt
+      - el-geth:/root/.ethereum
+    networks:
+      - network1
+
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+volumes:
+  el-geth:
+
+networks:
+  network1:
+    name: kt-lummio-network
+    external: true

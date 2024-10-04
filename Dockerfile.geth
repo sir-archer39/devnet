@@ -1,0 +1,9 @@
+FROM ethereum/client-go:latest
+
+WORKDIR /eth
+
+ADD ./network-configs/genesis.json /eth
+
+RUN geth init /eth/genesis.json
+
+ENTRYPOINT ["geth"]

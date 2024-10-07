@@ -29,14 +29,15 @@ services:
       - --metrics-port=5054
       - --enable-private-discovery
       - --testnet-dir=/network-configs
-      - --checkpoint-sync-url=http://172.16.0.12:9000
+      - --boot-nodes=enr:-MS4QMK2QF0OYCPH_13IWhnqtcuC54gqM4xyZfiyq-t0Kp8MUWQN5_zj0c8poXdGZ6wjftMIyXWkg2F5AFW5I-rYQT8Bh2F0dG5ldHOIAAAAAAAAAACEZXRoMpDYTi7gYAAAOADh9QUAAAAAgmlkgnY0gmlwhKwQAAyEcXVpY4IjKYlzZWNwMjU2azGhA5msOhRiZPTAI1W2ZERusCjKu8aWYfruhE6uXDTBwgtuiHN5bmNuZXRzAIN0Y3CCIyiDdWRwgiMo
     networks:
       - network1
     volumes:
-      - ./data/lighthouse-beacon:/data/lighthouse/beacon-data
-      - ./jwt:/jwt
-      - ./network-configs:/network-configs
+      - ./cl/data/lighthouse/beacon-data:/data/lighthouse/beacon-data
+      - ./cl/jwt:/jwt
+      - ./cl/network-configs:/network-configs
     ports:
+      - "5052:5052"
       - "4000:4000"
       - "9000:9000"
     environment:
@@ -75,7 +76,7 @@ services:
       - --metrics.port=9001 
       - --discovery.port=30303 
       - --port=30303 
-      - --bootnodes=enode://0b4e6d5ac3e300188bd8fc69efc2dcbaf8695f94eb78bac0b6ac86efad997c085d45c2704aacf398c00ba83b4f44ffefa5561e352cdb148a97fbc4ca1a0541a4@172.16.0.10:30303
+      - --bootnodes=enode://a868aec78f3bfd499e7d9aef80dd36b410c37d964e83ffb202444bb2acc23ccb3c370cfbcecdf96b42ab19f469a831df12ea9321711ea6efd21d97b20943a3b6@172.16.0.10:30303
     ports:
       - "30303:30303"
       - "8545:8545"
@@ -83,7 +84,7 @@ services:
       - "8551:8551"
       - "9001:9001"
     volumes:
-      - ./jwt:/jwt
+      - ./el/jwt:/jwt
       - el-geth:/root/.ethereum
     networks:
       - network1

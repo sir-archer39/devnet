@@ -1,0 +1,6 @@
+2024-10-07 12:58:26 WARN  Authentication response already sent. Dropping session. Node: Node: 0xa1ba..da15, addr: 172.16.0.12:9000
+2024-10-07 12:58:26 WARN  RPC Request failed: id: c3ee24cd0bfe3d2d, error InvalidRemotePacket
+2024-10-07 12:58:26 WARN  RPC Request failed: id: 86527fc6fd4fb272, error InvalidRemotePacket
+2024-10-07 12:58:27 WARN  Authentication response already sent. Dropping session. Node: Node: 0xa1ba..da15, addr: 172.16.0.12:9000
+2024-10-07 12:58:27 WARN  RPC Request failed: id: b12176bf1e926bbd, error InvalidRemotePacket
+2024-10-07 12:58:27 WARN  RPC Request failed: id: 066c6a9ced787c30, error InvalidRemotePacket

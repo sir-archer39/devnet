@@ -70,6 +70,7 @@ services:
       - --authrpc.vhosts=* 
       - --authrpc.jwtsecret=/jwt/jwtsecret 
       - --syncmode=full 
+      - --gcmode=archive
       - --rpc.allow-unprotected-txs 
       - --metrics 
       - --metrics.addr=0.0.0.0 

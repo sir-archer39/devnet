@@ -4,6 +4,6 @@ WORKDIR /eth
 
 ADD ./el/network-configs/genesis.json /eth
 
-RUN geth init /eth/genesis.json
+RUN geth init --state.scheme=hash /eth/genesis.json
 
 ENTRYPOINT ["geth"]
